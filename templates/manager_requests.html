@@ -11,7 +11,7 @@
 
     <div id="requests"></div>
 
-    <script>
+    <!-- <script>
         const eventSource = new EventSource("/stream");
 
         eventSource.onmessage = function(event) {
@@ -55,7 +55,7 @@
                 requestsDiv.appendChild(newRequestDiv);
             });
         };
-    </script>
+    </script> -->
 
     <ul class="request-list">
         {% for request in requests %}

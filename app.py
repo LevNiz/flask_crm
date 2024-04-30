@@ -1,5 +1,4 @@
 import json
-from os import abort
 import time
 from flask import Flask, render_template, request, redirect, url_for, session, Response, stream_with_context, jsonify
 from flask_login import UserMixin, LoginManager, login_user, login_required, logout_user, current_user
@@ -449,33 +448,33 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/stream')
-@login_required
-def stream():
-    def generate():
-        while True:
-            # Ваша логика для получения новых заявок
-            new_request = get_new_request()  # Функция, которая возвращает новые заявки
-            if new_request:
-                yield f"data: {new_request}\n\n"  # Отправить новую заявку клиенту
-            time.sleep(1)  # Пауза для имитации получения новых заявок
+# @app.route('/stream')
+# @login_required
+# def stream():
+#     def generate():
+#         while True:
+#             # Ваша логика для получения новых заявок
+#             new_request = get_new_request()  # Функция, которая возвращает новые заявки
+#             if new_request:
+#                 yield f"data: {new_request}\n\n"  # Отправить новую заявку клиенту
+#             time.sleep(1)  # Пауза для имитации получения новых заявок
         
-    return Response(stream_with_context(generate()), content_type='text/event-stream')
+#     return Response(stream_with_context(generate()), content_type='text/event-stream')
 
 
-def get_new_request():
-    new_requests = Request.query.filter_by(sent_operator=True, sent_manager=False).all()
+# def get_new_request():
+#     new_requests = Request.query.filter_by(sent_operator=True, sent_manager=False).all()
     
-    # Преобразуем список заявок в список словарей
-    new_requests_data = [{"id": request.id, "name": request.name, "phone": request.phone, "status": request.status, "operator_comments": [comment.text for comment in request.operator_comments], "birthdate": request.birthdate, "cityzen": request.cityzen} for request in new_requests]
-    if new_requests_data != []:
-        print(new_requests_data)
-        for data in new_requests:
-            request_obj = Request.query.get(data.id)
-            request_obj.sent_operator = False
-            db.session.commit()
+#     # Преобразуем список заявок в список словарей
+#     new_requests_data = [{"id": request.id, "name": request.name, "phone": request.phone, "status": request.status, "operator_comments": [comment.text for comment in request.operator_comments], "birthdate": request.birthdate, "cityzen": request.cityzen} for request in new_requests]
+#     if new_requests_data != []:
+#         print(new_requests_data)
+#         for data in new_requests:
+#             request_obj = Request.query.get(data.id)
+#             request_obj.sent_operator = False
+#             db.session.commit()
         
-        return json.dumps(new_requests_data)
+#         return json.dumps(new_requests_data)
 
 if __name__ == '__main__':
     app.run(debug=True)
