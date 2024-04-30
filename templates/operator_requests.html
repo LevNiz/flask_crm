@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRM Система</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+
+    <!-- <script>
+        window.addEventListener('DOMContentLoaded', (event) => {
+            const inputs = document.querySelectorAll('.form-group input');
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    // Получаем ширину содержимого инпута и сравниваем её с шириной инпута
+                    if (this.scrollWidth > this.clientWidth) {
+                        // Если содержимое не помещается в инпуте, увеличиваем его ширину
+                        this.style.width = this.scrollWidth + 'px';
+                    } else {
+                        // Иначе возвращаем стандартную ширину
+                        this.style.width = '';
+                    }
+                });
+            });
+        });
+    </script>     -->
+
+    <div class="container">
+        <h1>CRM Система</h1>
+
+        <h1>Заявки для оператора:</h1>
+        <ul class="request-list">
+            {% for request in requests %}
+                <li class="request-item">
+                    <div class="request-details">
+                        <p>Время заявки: {{ request.created_at }}</p>
+                        <p>Номер заявки: {{ request.id }}</p>
+                        <p>Имя: {{ request.name }}</p>
+                        <p>Телефон: {{ request.phone }}</p>
+                        <p>Статус: {{ request.status }}</p>
+
+                        <form action="/update_request" method="post" class="form-group">
+                             <div class="form-row">
+                                <label for="birthdate">Дата рождения:</label>
+                                <input type="date" id="birthdate" name="birthdate" value="{{ request.birthdate }}">
+                            </div>
+                             <div class="form-row"> 
+                                <label for="cityzen">Гражданство: </label>
+                                <input type="text" id="cityzen" name="cityzen" value="{{ request.cityzen }}">
+                            </div>
+                             <div class="form-row">
+                                <label for="mesto_rod">Место рождения:</label>
+                                <input type="text" id="mesto_rod" name="mesto_rod" value="{{ request.mesto_rod }}">
+                            </div>
+
+                             <div class="form-row">
+                                <label for="doc">Документ:</label>
+                                <input type="text" id="doc" name="doc" value="{{ request.doc }}">
+                            </div>
+
+                             <div class="form-row">
+                                <label for="number_doc">Номер документа:</label>
+                                <input type="text" id="number_doc" name="number_doc" value="{{ request.number_doc }}">
+    
+
+                            </div>
+
+                             <div class="form-row">
+                                <label for="kem_doc">Кем выдан документ:</label>
+                                <input type="text" id="kem_doc" name="kem_doc" value="{{ request.kem_doc }}">
+    
+                            </div>
+
+                             <div class="form-row">
+                                <label for="date_of_doc1">Дата выдачи документа:</label>
+                                <input type="text" id="date_of_doc" name="date_of_doc" value="{{ request.date_of_doc }}">
+    
+                            </div>
+
+                             <div class="form-row">
+                                <label for="registration_date">Срок регистрации:</label>
+                                <input type="text" id="registration_date" name="registration_date" value="{{ request.registration_date }}">
+    
+                            </div>
+
+                             <div class="form-row">
+                                <label for="registration_date">Адрес регистрации:</label>
+                                <input type="text" id="address_reg" name="address_reg" value="{{ request.address_reg }}">
+    
+                            </div>
+
+                             <div class="form-row">
+                                <label for="summa">Сумма:</label>
+                                <input type="text" id="summa" name="summa" value="{{ request.summa }}">
+    
+                            </div>
+                             <div class="form-row">
+
+                                <label for="date_of_deleviry">Дата доставки:</label>
+                                <input type="text" id="date_of_deleviry" name="date_of_deleviry" value="{{ request.date_of_deleviry }}">
+    
+                            </div>
+
+                             <div class="form-row">
+                                <label for="time_of_deleviry">Время доставки:</label>
+                                <input type="text" id="time_of_deleviry" name="time_of_deleviry" value="{{ request.time_of_deleviry }}">
+                            
+                            </div>
+
+                             <div class="form-row">
+                                <label for="time_of_deleviry">Адрес доставки:</label>
+                                <input type="text" id="address_of_deleviry" name="address_of_deleviry" value="{{ request.address_of_deleviry }}">
+    
+                            </div>
+
+                             <div class="form-row">
+                                <label for="status_deleviry">Статус доставки:</label>
+                                <input type="text" id="status_deleviry" name="status_deleviry" value="{{ request.status_deleviry }}">
+    
+                            </div>
+
+                            <button type="submit" class="hidden-button">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}">
+                        </form>
+<!-- 
+
+                        <form action="/update_birthdate" method="post" class="form-group">
+                            <label for="birthdate">Дата рождения:</label>
+                            <input type="date" id="birthdate" name="birthdate" value="{{ request.birthdate }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}">
+                        </form> -->
+
+
+                        <!-- <form action="/update_cityzen" method="post" class="form-group">
+                            <label for="cityzen">Гражданство: </label>
+                            <input type="text" id="cityzen" name="cityzen" value="{{ request.cityzen }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}">
+                        </form>
+
+                        <form action="/update_mesto_rod" method="post" class="form-group">
+                            <label for="mesto_rod">Место рождения:</label>
+                            <input type="text" id="mesto_rod" name="mesto_rod" value="{{ request.mesto_rod }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}"> 
+                        </form> -->
+
+                        
+                        <!-- <form action="/update_doc" method="post" class="form-group">
+                            <label for="doc">Документ:</label>
+                            <input type="text" id="doc" name="doc" value="{{ request.doc }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}">
+                        </form> -->
+<!-- 
+                        <form action="/update_number_doc" method="post" class="form-group">
+                            <label for="number_doc">Номер документа:</label>
+                            <input type="text" id="number_doc" name="number_doc" value="{{ request.number_doc }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}"> 
+                        </form> -->
+
+                        <!-- <form action="/update_kem_doc" method="post" class="form-group">
+                            <label for="kem_doc">Кем выдан документ:</label>
+                            <input type="text" id="kem_doc" name="kem_doc" value="{{ request.kem_doc }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}"> 
+                        </form>
+
+                        <form action="/update_date_of_doc" method="post" class="form-group">
+                            <label for="date_of_doc1">Дата выдачи документа:</label>
+                            <input type="text" id="date_of_doc" name="date_of_doc" value="{{ request.date_of_doc }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}"> 
+                        </form>
+
+                        <form action="/update_registration_date" method="post" class="form-group">
+                            <label for="registration_date">Срок регистрации:</label>
+                            <input type="text" id="registration_date" name="registration_date" value="{{ request.registration_date }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}"> 
+                        </form>
+
+                        <form action="/update_address_reg" method="post" class="form-group">
+                            <label for="registration_date">Адрес регистрации:</label>
+                            <input type="text" id="address_reg" name="address_reg" value="{{ request.address_reg }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}"> 
+                        </form>
+
+
+                        <form action="/update_summa" method="post" class="form-group">
+                            <label for="summa">Сумма:</label>
+                            <input type="text" id="summa" name="summa" value="{{ request.summa }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}"> 
+                        </form>
+
+
+                        <form action="/update_date_of_deleviry" method="post" class="form-group">
+                            <label for="date_of_deleviry">Дата доставки:</label>
+                            <input type="text" id="date_of_deleviry" name="date_of_deleviry" value="{{ request.date_of_deleviry }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}"> 
+                        </form>
+
+                        <form action="/update_time_of_deleviry" method="post" class="form-group">
+                            <label for="time_of_deleviry">Время доставки:</label>
+                            <input type="text" id="time_of_deleviry" name="time_of_deleviry" value="{{ request.time_of_deleviry }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}"> 
+                        </form>
+
+                        <form action="/update_address_of_deleviry" method="post" class="form-group">
+                            <label for="time_of_deleviry">Адрес доставки:</label>
+                            <input type="text" id="address_of_deleviry" name="address_of_deleviry" value="{{ request.address_of_deleviry }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}"> 
+                        </form>
+
+
+                        <form action="/update_status_deleviry" method="post" class="form-group">
+                            <label for="status_deleviry">Статус доставки:</label>
+                            <input type="text" id="status_deleviry" name="status_deleviry" value="{{ request.status_deleviry }}">
+                            <button type="submit">Сохранить</button>
+                            <input type="hidden" id="requestId" name="requestId" value="{{ request.id }}"> 
+                        </form>
+                         -->
+
+                    </div>
+                    <div class="comments">
+                        <h3>Комментарии:</h3>
+                        <ul>
+                            {% for comment in request.operator_comments %}
+                                <li>{{ comment.text }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% if request.status != 'Обработана менеджером' %}
+                        <form action="/process_request/{{ request.id }}" method="post" style="display: inline;">
+                            <input type="hidden" name="comment_type" value="transfer">
+                            <input type="submit" value="Отправить менеджеру">
+                        </form>
+                        <form action="/process_request/{{ request.id }}" method="post" style="display: inline;">
+                            <input type="hidden" name="comment_type" value="comment">
+                            <input type="text" name="comment" placeholder="Добавить комментарий">
+                            <input type="submit" value="Добавить комментарий">
+                        </form>
+                        <form action="/delete_request/{{ request.id }}" method="post" style="display: inline;">
+                            <input type="hidden" name="action" value="delete_operator">
+                            <input type="submit" value="Удалить">
+                        </form>
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    
+        
+    
+
+        <!-- <h2>Комментарии операторов:</h2>
+        <ul>
+            {% for comment in operator_comments %}
+                <li>{{ comment }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Комментарии менеджеров:</h2>
+        <ul>
+            {% for comment in manager_comments %}
+                <li>{{ comment.comment_text }}</li>
+            {% endfor %}
+        </ul> -->
+
+        <h2>Добавить заявку:</h2>
+        <form action="/add_request" method="post">
+            <label for="name">Имя:</label><br>
+            <input type="text" id="name" name="name" required><br>
+            <label for="phone">Телефон:</label><br>
+            <input type="tel" id="phone" name="phone" required><br><br>
+            <input type="submit" value="Добавить">
+        </form>
+    </div>
+</body>
+</html>

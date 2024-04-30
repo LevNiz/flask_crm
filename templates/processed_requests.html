@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Processed Requests</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Обработанные заявки:</h1>
+    <ul class="request-list">
+        {% for request in requests %}
+            <li class="request-item">
+                <div class="request-details">
+                    <p>Время заявки: {{ request.created_at }}</p>
+                    <p>Номер заявки: {{ request.id }}</p>
+                    <p>Имя: {{ request.name }}</p>
+                    <p>Телефон: {{ request.phone }}</p>
+                    <p>Статус: {{ request.status }}</p>
+                    <p>Дата рождения: {{ request.birthdate }}</p>
+                    <p>Место рождения: {{ request.mesto_rod }}</p>
+                    <p>Гражданство: {{ request.cityzen }}</p>
+                    <p>Документ: {{ request.doc }}</p>
+                    <p>Номер документа: {{ request.number_doc }}</p>
+                    <p>Кем выдан: {{ request.kem_doc }}</p>
+                    <p>Дата выдачи: {{ request.date_of_doc }}</p>
+                    <p>Срок регистрации: {{ request.registration_date }}</p>
+                    <p>Адрес регистрации: {{ request.address_reg }}</p>
+                    <p>Сумма: {{ request.summa }}</p>
+                    <p>Дата доставки: {{ request.date_of_deleviry }}</p>
+                    <p>Время доставки: {{ request.time_of_deleviry }}</p>
+                    <p>Адрес доставки: {{ request.address_of_deleviry }}</p>
+                    <p>Статус доставки: {{ request.status_deleviry }}</p>
+
+                </div>
+                <div class="comments">
+                    <h3>Комментарии:</h3>
+                    <ul>
+                        {% for comment in request.operator_comments %}
+                            <li>{{ comment.text }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
